@@ -40,9 +40,18 @@ public class RobotMovement {
             ArrayList<Point> intersections = MathFunctions.lineCircleIntersection(robotLocation, followRadius,
                     startLine.toPoint(), endLine.toPoint());
 
+            double shortestDistance = Double.MAX_VALUE;
+            for (Point thisIntersection: intersections) {
+                double distance = Math.hypot(Math.abs(thisIntersection.x - endLine.x), Math.abs(thisIntersection.y - endLine.y));
+                if (distance < shortestDistance) {
+                    shortestDistance = distance;
+                    followMe.setPoint(thisIntersection);
+                }
+            }
+/*
             double closestAngle = 10000000;
             for (Point thisIntersection: intersections) {
-                double angle = Math.atan2(thisIntersection.x - worldXPosition, thisIntersection.y - worldYPosition);
+                double angle = Math.atan2(thisIntersection.y - worldYPosition, thisIntersection.x - worldXPosition);
                 double deltaAngle = Math.abs(MathFunctions.angleWrap(angle - worldAngle_rad));
 
                 if (deltaAngle < closestAngle) {
@@ -50,6 +59,7 @@ public class RobotMovement {
                     followMe.setPoint(thisIntersection);
                 }
             }
+ */
         }
         return followMe;
     }
